@@ -485,8 +485,10 @@ const splitFileInfo = document.getElementById('splitFileInfo');
 const splitPreviewImage = document.getElementById('splitPreviewImage');
 const totalPiecesRange = document.getElementById('totalPiecesRange');
 const totalPiecesValue = document.getElementById('totalPiecesValue');
+const totalPiecesInput = document.getElementById('totalPiecesInput');
 const piecesRange = document.getElementById('piecesRange');
 const piecesValue = document.getElementById('piecesValue');
+const piecesInput = document.getElementById('piecesInput');
 const splitInvertColors = document.getElementById('splitInvertColors');
 const splitBtn = document.getElementById('splitBtn');
 const splitClearBtn = document.getElementById('splitClearBtn');
@@ -510,15 +512,41 @@ let totalFragments = 100; // 总碎片数量
 let bgColor = 'white';    // 底片颜色，默认为白色
 let shouldInvertSplitColors = false;
 
-// 更新范围滑块的值显示
+// 更新范围滑块的值显示和输入框同步
 totalPiecesRange.addEventListener('input', () => {
     totalFragments = parseInt(totalPiecesRange.value);
     totalPiecesValue.textContent = totalFragments;
+    totalPiecesInput.value = totalFragments;
+});
+
+totalPiecesInput.addEventListener('input', () => {
+    let value = parseInt(totalPiecesInput.value);
+    // 限制输入范围
+    if (value < 40) value = 40;
+    if (value > 1000) value = 1000;
+
+    totalFragments = value;
+    totalPiecesValue.textContent = value;
+    totalPiecesRange.value = value;
+    totalPiecesInput.value = value; // 更新输入框，以防输入超出范围后被修正
 });
 
 piecesRange.addEventListener('input', () => {
     numPieces = parseInt(piecesRange.value);
     piecesValue.textContent = numPieces;
+    piecesInput.value = numPieces;
+});
+
+piecesInput.addEventListener('input', () => {
+    let value = parseInt(piecesInput.value);
+    // 限制输入范围
+    if (value < 5) value = 5;
+    if (value > 20) value = 20;
+
+    numPieces = value;
+    piecesValue.textContent = value;
+    piecesRange.value = value;
+    piecesInput.value = value; // 更新输入框，以防输入超出范围后被修正
 });
 
 splitInvertColors.addEventListener('change', (e) => {
@@ -775,92 +803,72 @@ function displaySplitResults(totalFragmentCount) {
     splitResultCard.classList.remove('hidden');
 }
 
-// 优化的分片生成函数 - 确保像素有且仅有出现一次
-function generateSimpleFragments(width, height, numPieces, totalFragments) {
-    // 创建一个全零的主掩码数组 - 表示图像的每个像素将被分配到哪个碎片
-    const mainMask = new Uint8Array(width * height);
+// 创建改进的随机碎片分布
+function createImprovedFragments(width, height, count) {
+    const fragments = [];
 
-    // 计算每个图片的碎片数量 - 尽量均匀分配
-    const fragmentsPerPiece = Math.floor(totalFragments / numPieces);
-    let remainingFragments = totalFragments % numPieces;
+    // 定义碎片大小范围 - 根据图片尺寸和碎片数量动态调整
+    const minSize = Math.max(5, Math.floor(Math.min(width, height) / 40));
+    const maxSize = Math.max(15, Math.floor(Math.min(width, height) / 15));
 
-    // 为每个图片分配碎片数量
-    const fragmentAssignments = [];
-    for (let i = 0; i < numPieces; i++) {
-        let currentFragments = fragmentsPerPiece;
-        if (remainingFragments > 0) {
-            currentFragments++;
-            remainingFragments--;
-        }
-        fragmentAssignments.push(currentFragments);
-    }
+    // 创建网格以确保碎片分布更均匀
+    const gridSize = Math.ceil(Math.sqrt(count * 1.5)); // 增加1.5倍网格数以提高随机性
+    const cellWidth = Math.ceil(width / gridSize);
+    const cellHeight = Math.ceil(height / gridSize);
 
-    // 步骤1: 生成所有碎片区域
-    // 使用泊松盘采样算法生成大约totalFragments个点，作为碎片的种子点
-    const seeds = generatePoissonPoints(width, height, totalFragments);
-
-    // 步骤2: 使用Voronoi图分割整个图像到各个碎片
-    // 对每个像素，找到最近的种子点，将其分配给相应的碎片
-    for (let y = 0; y < height; y++) {
-        for (let x = 0; x < width; x++) {
-            const idx = y * width + x;
-            let minDist = Infinity;
-            let nearestSeed = -1;
-
-            // 找到最近的种子点
-            for (let i = 0; i < seeds.length; i++) {
-                const seed = seeds[i];
-                const dist = Math.sqrt(Math.pow(x - seed.x, 2) + Math.pow(y - seed.y, 2));
-                if (dist < minDist) {
-                    minDist = dist;
-                    nearestSeed = i;
-                }
-            }
-
-            // 分配像素给找到的碎片（碎片ID从1开始）
-            mainMask[idx] = nearestSeed + 1;
+    // 创建网格单元格列表
+    const cells = [];
+    for (let y = 0; y < gridSize; y++) {
+        for (let x = 0; x < gridSize; x++) {
+            cells.push({ x, y });
         }
     }
 
-    // 步骤3: 随机分配碎片到不同的图片中
-    // 创建一个包含所有碎片ID的数组
-    const fragmentIds = Array.from({ length: seeds.length }, (_, i) => i + 1);
+    // 随机打乱单元格顺序
+    shuffleArray(cells);
 
-    // 随机打乱碎片ID的顺序
-    shuffleArray(fragmentIds);
+    // 根据打乱的单元格创建碎片
+    for (let i = 0; i < count && i < cells.length; i++) {
+        const cell = cells[i];
 
-    // 为每张图片创建掩码 - 只包含分配给该图片的碎片
-    const imageMasks = [];
-    let fragmentIdIndex = 0;
+        // 在单元格内随机位置
+        const cellX = cell.x * cellWidth;
+        const cellY = cell.y * cellHeight;
 
-    for (let pieceIndex = 0; pieceIndex < numPieces; pieceIndex++) {
-        const fragmentCount = fragmentAssignments[pieceIndex];
-        const pieceMask = new Uint8Array(width * height);
+        // 随机碎片大小 - 使用更多变化的尺寸
+        const fragmentWidth = Math.floor(minSize + Math.random() * (maxSize - minSize));
+        const fragmentHeight = Math.floor(minSize + Math.random() * (maxSize - minSize));
 
-        // 收集当前图片的碎片ID
-        const currentPieceFragmentIds = [];
-        for (let i = 0; i < fragmentCount && fragmentIdIndex < fragmentIds.length; i++) {
-            currentPieceFragmentIds.push(fragmentIds[fragmentIdIndex]);
-            fragmentIdIndex++;
-        }
+        // 在单元格内随机位置，但确保不超出图像边界
+        const x = Math.min(cellX + Math.floor(Math.random() * (cellWidth - fragmentWidth / 2)), width - fragmentWidth);
+        const y = Math.min(cellY + Math.floor(Math.random() * (cellHeight - fragmentHeight / 2)), height - fragmentHeight);
 
-        // 将选定的碎片填充到当前图片的掩码中
-        for (let i = 0; i < mainMask.length; i++) {
-            const fragmentId = mainMask[i];
-            if (currentPieceFragmentIds.includes(fragmentId)) {
-                // 分配一个新的本地碎片ID（1到fragmentCount）
-                pieceMask[i] = currentPieceFragmentIds.indexOf(fragmentId) + 1;
-            }
-        }
-
-        // 将当前图片的掩码添加到结果中
-        imageMasks.push({
-            mask: pieceMask,
-            fragmentCount: fragmentCount
+        // 添加碎片
+        fragments.push({
+            x: Math.max(0, x),
+            y: Math.max(0, y),
+            width: fragmentWidth,
+            height: fragmentHeight
         });
     }
 
-    return imageMasks;
+    // 如果碎片数量不足，添加额外的随机碎片
+    while (fragments.length < count) {
+        const fragmentWidth = Math.floor(minSize + Math.random() * (maxSize - minSize));
+        const fragmentHeight = Math.floor(minSize + Math.random() * (maxSize - minSize));
+
+        const x = Math.floor(Math.random() * (width - fragmentWidth));
+        const y = Math.floor(Math.random() * (height - fragmentHeight));
+
+        fragments.push({
+            x: Math.max(0, x),
+            y: Math.max(0, y),
+            width: fragmentWidth,
+            height: fragmentHeight
+        });
+    }
+
+    return fragments;
 }
 
 // 打乱数组的辅助函数
@@ -1039,73 +1047,142 @@ async function createSplitImageFromFragments(sourceImg, fragmentMask, shouldInve
 // 分割图像主函数
 async function splitImage() {
     if (splitFiles.length === 0) {
-        showSplitError('请先选择图片');
+        showSplitError('请先选择一张图片');
         return;
     }
 
     try {
         splitProcessingInfo.classList.remove('hidden');
-        updateSplitProgress('正在准备处理...', 5);
+        updateSplitProgress('正在准备分割...', 5);
 
-        // 清除之前的结果
-        splitResults.forEach(result => URL.revokeObjectURL(result.url));
-        splitResults = [];
+        // 加载图像
+        const img = await loadImage(splitFiles[0]);
 
-        let totalFileIndex = 0;
-        let overallTotalFragmentCount = 0;
+        // 设置Canvas尺寸
+        const maxDimension = 2000; // 限制最大尺寸以避免性能问题
+        let width = img.width;
+        let height = img.height;
 
-        // 处理每张图片
-        for (const [fileIndex, file] of splitFiles.entries()) {
-            updateSplitProgress(`正在处理图片 ${fileIndex + 1}/${splitFiles.length}...`,
-                10 + (80 * fileIndex / splitFiles.length));
-
-            // 加载图像
-            const sourceImg = await loadImage(file);
-            const width = sourceImg.width;
-            const height = sourceImg.height;
-
-            // 设置Canvas尺寸
-            splitCanvas.width = width;
-            splitCanvas.height = height;
-
-            // 生成随机形状掩码
-            const fragmentMasks = generateSimpleFragments(width, height, numPieces, totalFragments);
-
-            // 为每个区域创建图像
-            let fileTotalFragmentCount = 0;
-            for (let i = 0; i < fragmentMasks.length; i++) {
-                updateSplitProgress(
-                    `处理图片 ${fileIndex + 1}/${splitFiles.length} - 生成第 ${i + 1}/${numPieces} 张碎片图...`,
-                    10 + (80 * (fileIndex + i / numPieces) / splitFiles.length)
-                );
-
-                const { mask, fragmentCount } = fragmentMasks[i];
-                fileTotalFragmentCount += fragmentCount;
-
-                // 创建碎片图像
-                const imageUrl = await createSplitImageFromFragments(
-                    sourceImg,
-                    mask,
-                    shouldInvertSplitColors
-                );
-
-                // 存储结果
-                splitResults.push({
-                    index: totalFileIndex + i + 1,
-                    url: imageUrl,
-                    fragmentCount: fragmentCount,
-                    fileName: file.name.replace(/\.[^/.]+$/, "") // 获取文件名（不带扩展名）
-                });
-            }
-
-            totalFileIndex += numPieces;
-            overallTotalFragmentCount += fileTotalFragmentCount;
+        // 如果图像太大，按比例缩小
+        if (width > maxDimension || height > maxDimension) {
+            const ratio = Math.min(maxDimension / width, maxDimension / height);
+            width = Math.floor(width * ratio);
+            height = Math.floor(height * ratio);
         }
 
-        updateSplitProgress('生成预览...', 95);
+        splitCanvas.width = width;
+        splitCanvas.height = height;
+
+        // 绘制原始图像
+        splitCtx.clearRect(0, 0, width, height);
+        splitCtx.drawImage(img, 0, 0, width, height);
+
+        // 获取图像数据
+        const imageData = splitCtx.getImageData(0, 0, width, height);
+
+        updateSplitProgress('正在计算分割方案...', 15);
+
+        // 计算每张图片的碎片数
+        const fragmentsPerPiece = Math.ceil(totalFragments / numPieces);
+
+        // 创建碎片分配方案 - 使用改进的随机算法
+        const fragments = createImprovedFragments(width, height, totalFragments);
+
+        // 清空结果数组
+        splitResults = [];
+
+        // 为每张图片分配碎片
+        for (let i = 0; i < numPieces; i++) {
+            updateSplitProgress(`正在生成第 ${i + 1}/${numPieces} 张碎片图...`, 20 + (70 * i / numPieces));
+
+            // 创建新的Canvas
+            const pieceCanvas = document.createElement('canvas');
+            pieceCanvas.width = width;
+            pieceCanvas.height = height;
+            const pieceCtx = pieceCanvas.getContext('2d');
+
+            // 设置背景色
+            if (bgColor === 'white') {
+                pieceCtx.fillStyle = '#ffffff';
+                pieceCtx.fillRect(0, 0, width, height);
+            } else if (bgColor === 'black') {
+                pieceCtx.fillStyle = '#000000';
+                pieceCtx.fillRect(0, 0, width, height);
+            }
+            // 透明背景不需要填充
+
+            // 计算当前图片应该包含的碎片范围
+            const startIdx = i * fragmentsPerPiece;
+            const endIdx = Math.min(startIdx + fragmentsPerPiece, fragments.length);
+
+            // 复制原始图像数据
+            const pieceImageData = new ImageData(width, height);
+
+            // 如果是透明背景，初始化所有像素为透明
+            if (bgColor === 'transparent') {
+                for (let j = 0; j < pieceImageData.data.length; j += 4) {
+                    pieceImageData.data[j + 3] = 0; // Alpha通道设为0（完全透明）
+                }
+            }
+
+            // 将分配给当前图片的碎片复制到新图像
+            for (let j = startIdx; j < endIdx; j++) {
+                if (j >= fragments.length) break;
+
+                const fragment = fragments[j];
+
+                // 复制碎片区域的像素
+                for (let y = fragment.y; y < fragment.y + fragment.height; y++) {
+                    for (let x = fragment.x; x < fragment.x + fragment.width; x++) {
+                        if (x >= 0 && x < width && y >= 0 && y < height) {
+                            const idx = (y * width + x) * 4;
+
+                            // 复制像素数据
+                            pieceImageData.data[idx] = imageData.data[idx];         // R
+                            pieceImageData.data[idx + 1] = imageData.data[idx + 1]; // G
+                            pieceImageData.data[idx + 2] = imageData.data[idx + 2]; // B
+                            pieceImageData.data[idx + 3] = imageData.data[idx + 3]; // A
+                        }
+                    }
+                }
+            }
+
+            // 如果需要反转色彩
+            if (shouldInvertSplitColors) {
+                for (let j = 0; j < pieceImageData.data.length; j += 4) {
+                    // 只反转不透明的像素
+                    if (pieceImageData.data[j + 3] > 0) {
+                        pieceImageData.data[j] = 255 - pieceImageData.data[j];         // R
+                        pieceImageData.data[j + 1] = 255 - pieceImageData.data[j + 1]; // G
+                        pieceImageData.data[j + 2] = 255 - pieceImageData.data[j + 2]; // B
+                    }
+                }
+            }
+
+            // 将处理后的图像数据放回canvas
+            pieceCtx.putImageData(pieceImageData, 0, 0);
+
+            // 添加水印
+            addWatermark(pieceCtx, width, height);
+
+            // 生成数据URL
+            const format = bgColor === 'transparent' ? 'image/png' : 'image/jpeg';
+            const quality = bgColor === 'transparent' ? 1.0 : 0.9;
+            const dataURL = pieceCanvas.toDataURL(format, quality);
+
+            // 添加到结果数组
+            splitResults.push({
+                index: i + 1,
+                url: dataURL,
+                fragmentCount: endIdx - startIdx,
+                fileName: splitFiles[0].name.replace(/\.[^/.]+$/, "") // 获取文件名（不带扩展名）
+            });
+        }
+
+        updateSplitProgress('生成结果预览...', 95);
 
         // 显示结果
-        displaySplitResults(overallTotalFragmentCount);
+        displaySplitResults(totalFragments);
 
         updateSplitProgress('分割完成！', 100);
         setTimeout(() => {
