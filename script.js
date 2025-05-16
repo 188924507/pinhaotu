@@ -1199,3 +1199,229 @@ function downloadAllSplitImages() {
         }
     });
 }
+
+// 历史记录功能
+// 元素引用
+const historyContainer = document.getElementById('historyContainer');
+const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+const historyModal = document.getElementById('historyModal');
+const closeModalBtn = document.getElementById('closeModalBtn');
+const modalTitle = document.getElementById('modalTitle');
+const modalImage = document.getElementById('modalImage');
+const modalTime = document.getElementById('modalTime');
+const modalType = document.getElementById('modalType');
+const modalSize = document.getElementById('modalSize');
+const modalDownloadBtn = document.getElementById('modalDownloadBtn');
+
+// 历史记录存储键名
+const HISTORY_STORAGE_KEY = 'pinhaotu_history';
+
+// 初始化历史记录
+let imageHistory = [];
+
+// 加载历史记录
+function loadHistory() {
+    try {
+        const storedHistory = localStorage.getItem(HISTORY_STORAGE_KEY);
+        if (storedHistory) {
+            imageHistory = JSON.parse(storedHistory);
+            displayHistory();
+        }
+    } catch (error) {
+        console.error('加载历史记录失败:', error);
+    }
+}
+
+// 保存历史记录
+function saveHistory() {
+    try {
+        localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(imageHistory));
+    } catch (error) {
+        console.error('保存历史记录失败:', error);
+    }
+}
+
+// 添加历史记录
+function addToHistory(imageData, type) {
+    // 创建历史记录项
+    const historyItem = {
+        id: Date.now(), // 使用时间戳作为唯一ID
+        date: new Date().toLocaleString(),
+        type: type,
+        imageData: imageData,
+        // 获取图片尺寸
+        width: 0,
+        height: 0
+    };
+
+    // 加载图片以获取尺寸
+    const img = new Image();
+    img.onload = function () {
+        historyItem.width = img.width;
+        historyItem.height = img.height;
+
+        // 将新记录添加到历史记录开头
+        imageHistory.unshift(historyItem);
+
+        // 限制历史记录数量，最多保存20条
+        if (imageHistory.length > 20) {
+            imageHistory = imageHistory.slice(0, 20);
+        }
+
+        // 保存到本地存储
+        saveHistory();
+
+        // 如果当前在历史记录标签页，则更新显示
+        if (document.getElementById('history-tab').classList.contains('active')) {
+            displayHistory();
+        }
+    };
+    img.src = imageData;
+}
+
+// 显示历史记录
+function displayHistory() {
+    historyContainer.innerHTML = '';
+
+    if (imageHistory.length === 0) {
+        historyContainer.innerHTML = `
+            <div class="empty-history">
+                <i class="fa-solid fa-folder-open"></i>
+                <p>暂无历史记录</p>
+            </div>
+        `;
+        return;
+    }
+
+    imageHistory.forEach(item => {
+        const historyItem = document.createElement('div');
+        historyItem.className = 'history-item';
+        historyItem.dataset.id = item.id;
+
+        historyItem.innerHTML = `
+            <img src="${item.imageData}" alt="历史图片" class="history-image">
+            <div class="history-info">
+                <div class="history-date">${formatDate(item.date)}</div>
+                <div class="history-type">${item.type}</div>
+            </div>
+        `;
+
+        historyItem.addEventListener('click', () => {
+            showHistoryDetail(item);
+        });
+
+        historyContainer.appendChild(historyItem);
+    });
+}
+
+// 格式化日期显示
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) {
+        // 如果是已经格式化的字符串，直接返回
+        return dateString;
+    }
+
+    return date.toLocaleDateString('zh-CN', {
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+}
+
+// 显示历史记录详情
+function showHistoryDetail(item) {
+    modalTitle.textContent = `图片详情 (${formatDate(item.date)})`;
+    modalImage.src = item.imageData;
+    modalTime.textContent = item.date;
+    modalType.textContent = item.type;
+    modalSize.textContent = item.width && item.height ? `${item.width} × ${item.height} 像素` : '未知';
+
+    // 设置下载按钮
+    modalDownloadBtn.onclick = () => {
+        const link = document.createElement('a');
+        link.href = item.imageData;
+        link.download = `拼好图_${item.type}_${formatDateForFilename(item.date)}.png`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+    // 显示弹窗
+    historyModal.classList.add('active');
+    document.body.style.overflow = 'hidden'; // 防止背景滚动
+}
+
+// 格式化日期用于文件名
+function formatDateForFilename(dateString) {
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) {
+        // 如果解析失败，使用当前时间
+        return new Date().toISOString().replace(/[:.]/g, '-');
+    }
+
+    return date.toISOString().replace(/[:.]/g, '-');
+}
+
+// 关闭弹窗
+function closeModal() {
+    historyModal.classList.remove('active');
+    document.body.style.overflow = ''; // 恢复背景滚动
+}
+
+// 清除所有历史记录
+function clearAllHistory() {
+    if (confirm('确定要清除所有历史记录吗？此操作不可恢复。')) {
+        imageHistory = [];
+        saveHistory();
+        displayHistory();
+    }
+}
+
+// 修改处理图像函数，添加保存历史记录功能
+const originalProcessImages = processImages;
+processImages = async function (files) {
+    await originalProcessImages(files);
+
+    // 如果处理成功且有结果图像，则添加到历史记录
+    if (!resultCard.classList.contains('hidden') && resultImage.src) {
+        const type = shouldInvertColors ? '正片叠底+色彩反转' : '正片叠底';
+        addToHistory(resultImage.src, type);
+    }
+};
+
+// 修改分割图像函数，添加保存历史记录功能
+const originalSplitImage = splitImage;
+splitImage = async function () {
+    await originalSplitImage();
+
+    // 如果分割成功且有结果，则添加每个分割结果到历史记录
+    if (splitResults.length > 0) {
+        splitResults.forEach(result => {
+            const type = `图像分割 (${result.index}/${splitResults.length})`;
+            addToHistory(result.url, type);
+        });
+    }
+};
+
+// 事件监听
+clearHistoryBtn.addEventListener('click', clearAllHistory);
+closeModalBtn.addEventListener('click', closeModal);
+
+// 点击弹窗背景关闭弹窗
+historyModal.addEventListener('click', (e) => {
+    if (e.target === historyModal) {
+        closeModal();
+    }
+});
+
+// ESC键关闭弹窗
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && historyModal.classList.contains('active')) {
+        closeModal();
+    }
+});
+
+// 初始化加载历史记录
+document.addEventListener('DOMContentLoaded', loadHistory);
