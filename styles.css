@@ -342,14 +342,21 @@ p {
     margin-right: 1rem;
     display: flex;
     align-items: center;
+    justify-content: center;
+    /* 添加水平居中 */
     color: var(--gray-600);
     font-weight: 500;
     transition: all 0.2s;
+    height: 3rem;
+    /* 固定高度确保一致性 */
 }
 
 .tab i {
     margin-right: 0.5rem;
     font-size: 1.125rem;
+    display: flex;
+    /* 确保图标也能正确居中 */
+    align-items: center;
 }
 
 .tab.active {
@@ -802,6 +809,112 @@ p {
     }
 }
 
+/* 重新设计的页脚样式 */
+.footer {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--gray-200);
+    color: var(--gray-600);
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.footer-logo i {
+    font-size: 1.75rem;
+    color: var(--primary-color);
+    margin-right: 0.5rem;
+}
+
+.footer-logo span {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--gray-700);
+}
+
+.footer-info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.footer-item {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background-color: var(--gray-100);
+    border-radius: var(--radius-md);
+    transition: all 0.2s ease;
+}
+
+.footer-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+    background-color: var(--primary-light);
+    color: var(--primary-dark);
+}
+
+.footer-item i {
+    margin-right: 0.5rem;
+    color: var(--primary-color);
+}
+
+.footer-copyright {
+    font-size: 0.875rem;
+    color: var(--gray-500);
+}
+
+.footer-copyright p {
+    margin: 0;
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .footer-item:hover {
+    background-color: #e3f2fd;
+    color: #1e88e5;
+}
+
+.huawei-device .footer-item i,
+.huawei-device .footer-logo i {
+    color: #1e88e5;
+}
+
+/* 安卓设备适配 */
+.android-device .footer-item:hover {
+    background-color: #e8f5e9;
+    color: #4caf50;
+}
+
+.android-device .footer-item i,
+.android-device .footer-logo i {
+    color: #4caf50;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .footer {
+        margin-top: 3rem;
+        padding-top: 1.5rem;
+    }
+
+    .footer-info {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+}
+
 /* 华为设备特殊适配 */
 .huawei-device .modal-content {
     border: 1px solid #1e88e5;
@@ -829,3 +942,3545 @@ p {
 .history-container::-webkit-scrollbar-thumb:hover {
     background: var(--gray-400);
 }
+
+/* 赞赏入口样式 */
+.donate-container {
+    margin: 2rem 0 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.donate-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ff9500;
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 0.75rem 1.75rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    box-shadow: 0 4px 6px rgba(255, 149, 0, 0.2);
+}
+
+.donate-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(255, 149, 0, 0.3);
+    background-color: #ff8500;
+}
+
+.donate-button:active {
+    transform: translateY(-1px);
+}
+
+.donate-button i {
+    margin-right: 0.5rem;
+    font-size: 1.25rem;
+}
+
+.donate-text {
+    margin-top: 0.75rem;
+    font-size: 0.875rem;
+    color: var(--gray-500);
+    text-align: center;
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .donate-button {
+    background-color: #1e88e5;
+    box-shadow: 0 4px 6px rgba(30, 136, 229, 0.2);
+}
+
+.huawei-device .donate-button:hover {
+    background-color: #1976d2;
+    box-shadow: 0 6px 12px rgba(30, 136, 229, 0.3);
+}
+
+/* 安卓设备适配 */
+.android-device .donate-button {
+    background-color: #4caf50;
+    box-shadow: 0 4px 6px rgba(76, 175, 80, 0.2);
+}
+
+.android-device .donate-button:hover {
+    background-color: #43a047;
+    box-shadow: 0 6px 12px rgba(76, 175, 80, 0.3);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .donate-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .donate-text {
+        font-size: 0.8rem;
+        max-width: 80%;
+    }
+}
+
+/* 添加以下样式来优化小屏幕下的标签显示 */
+@media (max-width: 480px) {
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tab {
+        padding: 0.75rem 0.5rem;
+        margin-right: 0;
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        height: 2.75rem;
+        /* 小屏幕时稍微减小高度 */
+        justify-content: center;
+    }
+
+    .tab i {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+    }
+
+    /* 确保图标和文字在一行显示并居中 */
+    .tab span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* 针对超小屏幕的优化 */
+@media (max-width: 360px) {
+    .tab {
+        padding: 0.75rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .tab i {
+        margin-right: 0.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 华为设备特殊适配 */
+.huawei-device .modal-content {
+    border: 1px solid #1e88e5;
+}
+
+.huawei-device .close-btn:hover {
+    color: #1e88e5;
+}
+
+/* 滚动条美化 */
+.history-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 10px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* 响应式调整 */
