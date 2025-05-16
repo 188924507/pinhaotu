@@ -28,6 +28,10 @@
                 <i class="fa-solid fa-puzzle-piece"></i>
                 <span>图像分割</span>
             </div>
+            <div class="tab" data-tab="history">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <span>历史记录</span>
+            </div>
         </div>
 
         <div class="tab-content active" id="blend-tab">
@@ -190,6 +194,50 @@
 
                     <button id="downloadAllBtn" class="btn btn-success download-all-btn"><i
                             class="fa-solid fa-download"></i> 下载所有碎片</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 新增历史记录标签页 -->
+        <div class="tab-content" id="history-tab">
+            <div class="card">
+                <h2><i class="fa-solid fa-clock-rotate-left"></i> 历史记录</h2>
+                <p>查看您最近处理的图片记录</p>
+
+                <div id="historyContainer" class="history-container">
+                    <div class="empty-history">
+                        <i class="fa-solid fa-folder-open"></i>
+                        <p>暂无历史记录</p>
+                    </div>
+                </div>
+
+                <button id="clearHistoryBtn" class="btn btn-outline mt-4">
+                    <i class="fa-solid fa-trash"></i> 清除所有历史记录
+                </button>
+            </div>
+        </div>
+
+        <!-- 历史记录详情弹窗 -->
+        <div id="historyModal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fa-solid fa-image"></i> <span id="modalTitle">图片详情</span></h3>
+                    <button id="closeModalBtn" class="close-btn"><i class="fa-solid fa-times"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="image-preview">
+                        <img id="modalImage" src="" alt="历史图片">
+                    </div>
+                    <div class="image-info">
+                        <p><strong>处理时间：</strong><span id="modalTime"></span></p>
+                        <p><strong>处理类型：</strong><span id="modalType"></span></p>
+                        <p><strong>图片尺寸：</strong><span id="modalSize"></span></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="modalDownloadBtn" class="btn btn-success">
+                        <i class="fa-solid fa-download"></i> 下载图片
+                    </button>
                 </div>
             </div>
         </div>
