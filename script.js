@@ -315,7 +315,9 @@ async function processImages(files) {
         // 加载所有图像
         const images = [];
         for (let i = 0; i < files.length; i++) {
-            updateProgress(`加载图片 ${i + 1}/${files.length}...`, 10 + (20 * i / files.length));
+            // 更新进度，确保进度条平滑增长
+            const progressPercent = 10 + (20 * i / Math.min(files.length, 50));
+            updateProgress(`加载图片 ${i + 1}/${files.length}...`, progressPercent);
 
             try {
                 const image = await loadImage(files[i]);
@@ -323,6 +325,11 @@ async function processImages(files) {
             } catch (error) {
                 console.error(`处理图片 ${i + 1} 时出错:`, error);
                 throw new Error(`加载图片 ${i + 1} 失败: ${error.message || '未知错误'}`);
+            }
+
+            // 每加载10张图片暂停一下，避免浏览器卡顿
+            if (i % 10 === 9 && i < files.length - 1) {
+                await new Promise(resolve => setTimeout(resolve, 100));
             }
         }
 
@@ -363,50 +370,61 @@ async function processImages(files) {
             }
         }
 
-        // 逐一处理每张图片
-        for (let i = 1; i < images.length; i++) {
-            updateProgress(`正在处理第 ${i + 1}/${images.length} 张图片...`, 40 + (40 * i / images.length));
+        // 优化：分批处理图片，避免处理大量图片时浏览器卡顿
+        const batchSize = 5; // 每批处理5张图片
+        for (let batchStart = 1; batchStart < images.length; batchStart += batchSize) {
+            const batchEnd = Math.min(batchStart + batchSize, images.length);
 
-            // 绘制叠加图像到临时canvas
-            ctx.clearRect(0, 0, width, height);
-            ctx.drawImage(images[i], 0, 0);
-            const overlayData = ctx.getImageData(0, 0, width, height).data;
+            // 更新进度
+            const progressPercent = 40 + (40 * batchStart / images.length);
+            updateProgress(`正在处理第 ${batchStart}-${batchEnd - 1}/${images.length} 张图片...`, progressPercent);
 
-            // 像素级正片叠底处理
-            for (let j = 0; j < pixelData.length; j += 4) {
-                const baseColor = {
-                    r: pixelData[j],
-                    g: pixelData[j + 1],
-                    b: pixelData[j + 2],
-                    a: pixelData[j + 3]
-                };
+            // 处理这一批图片
+            for (let i = batchStart; i < batchEnd; i++) {
+                // 绘制叠加图像到临时canvas
+                ctx.clearRect(0, 0, width, height);
+                ctx.drawImage(images[i], 0, 0);
+                const overlayData = ctx.getImageData(0, 0, width, height).data;
 
-                const overlayColor = {
-                    r: overlayData[j],
-                    g: overlayData[j + 1],
-                    b: overlayData[j + 2],
-                    a: overlayData[j + 3]
-                };
+                // 像素级正片叠底处理
+                for (let j = 0; j < pixelData.length; j += 4) {
+                    const baseColor = {
+                        r: pixelData[j],
+                        g: pixelData[j + 1],
+                        b: pixelData[j + 2],
+                        a: pixelData[j + 3]
+                    };
 
-                // 如果两个像素都不透明，则进行正片叠底
-                if (baseColor.a > 0 && overlayColor.a > 0) {
-                    const resultColor = multiplyBlend(baseColor, overlayColor);
+                    const overlayColor = {
+                        r: overlayData[j],
+                        g: overlayData[j + 1],
+                        b: overlayData[j + 2],
+                        a: overlayData[j + 3]
+                    };
 
-                    pixelData[j] = resultColor.r;
-                    pixelData[j + 1] = resultColor.g;
-                    pixelData[j + 2] = resultColor.b;
-                    pixelData[j + 3] = Math.max(baseColor.a, overlayColor.a); // 保留较高的透明度值
+                    // 如果两个像素都不透明，则进行正片叠底
+                    if (baseColor.a > 0 && overlayColor.a > 0) {
+                        const resultColor = multiplyBlend(baseColor, overlayColor);
+
+                        pixelData[j] = resultColor.r;
+                        pixelData[j + 1] = resultColor.g;
+                        pixelData[j + 2] = resultColor.b;
+                        pixelData[j + 3] = Math.max(baseColor.a, overlayColor.a); // 保留较高的透明度值
+                    }
+                    // 如果基础像素透明但叠加像素不透明，使用叠加像素
+                    else if (baseColor.a === 0 && overlayColor.a > 0) {
+                        pixelData[j] = overlayColor.r;
+                        pixelData[j + 1] = overlayColor.g;
+                        pixelData[j + 2] = overlayColor.b;
+                        pixelData[j + 3] = overlayColor.a;
+                    }
+                    // 如果叠加像素透明但基础像素不透明，保持基础像素不变
+                    // 如果两个像素都透明，则保持透明
                 }
-                // 如果基础像素透明但叠加像素不透明，使用叠加像素
-                else if (baseColor.a === 0 && overlayColor.a > 0) {
-                    pixelData[j] = overlayColor.r;
-                    pixelData[j + 1] = overlayColor.g;
-                    pixelData[j + 2] = overlayColor.b;
-                    pixelData[j + 3] = overlayColor.a;
-                }
-                // 如果叠加像素透明但基础像素不透明，保持基础像素不变
-                // 如果两个像素都透明，则保持透明
             }
+
+            // 每批处理完后暂停一下，让浏览器有机会更新UI
+            await new Promise(resolve => setTimeout(resolve, 10));
         }
 
         // 如果选择了色彩反转，在正片叠底完成后应用
@@ -863,6 +881,42 @@ function generateSimpleFragments(width, height, numPieces, totalFragments) {
     return imageMasks;
 }
 
+// 确保碎片分布均匀且能正确还原
+function createFragments(width, height, totalCount) {
+    const fragments = [];
+    const gridSize = Math.ceil(Math.sqrt(totalCount));
+    const cellWidth = Math.floor(width / gridSize);
+    const cellHeight = Math.floor(height / gridSize);
+
+    // 创建网格碎片
+    for (let y = 0; y < gridSize; y++) {
+        for (let x = 0; x < gridSize; x++) {
+            if (fragments.length >= totalCount) break;
+
+            // 计算碎片位置和大小
+            const left = x * cellWidth;
+            const top = y * cellHeight;
+            const right = Math.min(left + cellWidth, width);
+            const bottom = Math.min(top + cellHeight, height);
+
+            // 添加随机偏移以使碎片形状不规则（但确保不会重叠）
+            const offsetX = Math.floor(cellWidth * 0.1);
+            const offsetY = Math.floor(cellHeight * 0.1);
+
+            // 创建碎片对象
+            fragments.push({
+                x: left + (Math.random() * offsetX),
+                y: top + (Math.random() * offsetY),
+                width: right - left - (Math.random() * offsetX),
+                height: bottom - top - (Math.random() * offsetY)
+            });
+        }
+    }
+
+    // 随机打乱碎片顺序，确保分布更随机
+    return shuffleArray(fragments);
+}
+
 // 打乱数组的辅助函数
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -1121,25 +1175,14 @@ async function splitImage() {
 
 // 新增水印绘制函数
 function addWatermark(context, width, height) {
-    const text = "© 拼图 公众号：蓝友畅言吧";
-    const fontSize = Math.max(12, width * 0.02); // 根据图片尺寸动态调整字号
-    const padding = 5;
-
-    // 测量文本宽度
-    context.font = `${fontSize}px Arial`;
-    const textWidth = context.measureText(text).width;
-
-    // 计算水印位置（右下角）
-    const x = width - textWidth - padding * 2;
-    const y = height - fontSize - padding;
-
-    // 绘制白色背景
-    context.fillStyle = 'rgba(255, 255, 255, 0.8)';
-    context.fillRect(x - padding, y - padding, textWidth + padding * 2, fontSize + padding * 2);
-
-    // 绘制黑色文字
-    context.fillStyle = '#000';
-    context.fillText(text, x, y + fontSize);
+    const text = '拼好图';
+    context.save();
+    context.fillStyle = 'rgba(255, 255, 255, 0.5)';
+    context.font = '16px Arial';
+    context.textAlign = 'right';
+    context.textBaseline = 'bottom';
+    context.fillText(text, width - 10, height - 10);
+    context.restore();
 }
 
 // 下载所有分割图像
