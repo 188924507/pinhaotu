@@ -495,6 +495,8 @@ p {
     overflow: hidden;
     transition: transform 0.2s, box-shadow 0.2s;
     background-color: white;
+    display: flex;
+    flex-direction: column;
 }
 
 .split-image-card:hover {
@@ -505,7 +507,8 @@ p {
 .split-image {
     width: 100%;
     aspect-ratio: 1 / 1;
-    object-fit: cover;
+    object-fit: contain;
+    background: var(--gray-300);
 }
 
 .split-image-info {
@@ -514,6 +517,10 @@ p {
     font-size: 0.875rem;
     color: var(--gray-600);
     border-top: 1px solid var(--gray-200);
+}
+
+.split-image-card .btn {
+    margin: 0 0.75rem 0.75rem;
 }
 
 .download-all-btn {

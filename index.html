@@ -133,6 +133,18 @@
 
                         <div class="options-panel">
                             <div class="range-container">
+                                <label for="fragmentSizeRange">碎片大小 (5-100px)</label>
+                                <input type="range" id="fragmentSizeRange" min="5" max="100" value="30">
+                                <div class="range-value"><span id="fragmentSizeValue">30</span> px</div>
+                            </div>
+
+                            <div class="range-container">
+                                <label for="piecesRange">分割成多少张图片 (5-10张)</label>
+                                <input type="range" id="piecesRange" min="5" max="10" value="8">
+                                <div class="range-value"><span id="piecesValue">8</span> 张</div>
+                            </div>
+                            <!-- 删除以下两个重复的范围滑块 -->
+                            <!-- <div class="range-container">
                                 <label for="totalPiecesRange">总碎片数量 (40-350片)</label>
                                 <input type="range" id="totalPiecesRange" min="40" max="350" value="100">
                                 <div class="range-value"><span id="totalPiecesValue">100</span> 片</div>
@@ -142,7 +154,7 @@
                                 <label for="piecesRange">分割成多少张图片 (5-15张)</label>
                                 <input type="range" id="piecesRange" min="5" max="15" value="8">
                                 <div class="range-value"><span id="piecesValue">8</span> 张</div>
-                            </div>
+                            </div> -->
 
                             <div class="option-container">
                                 <label>底片颜色 <span class="recommend-tag">推荐：透明</span></label>
