@@ -273,32 +273,14 @@ function loadImage(file) {
     });
 }
 
-// 正片叠底算法实现
+// 正片叠底算法实现 - 增强版
 function multiplyBlend(baseColor, overlayColor) {
-    // 添加最小阈值和亮度补偿
-    const minThreshold = 5; // 最小阈值，防止像素值过小
-    const brightnessCompensation = 1.1; // 亮度补偿系数
-
-    // 计算正片叠底结果
-    let r = Math.round((baseColor.r * overlayColor.r) / 255 * brightnessCompensation);
-    let g = Math.round((baseColor.g * overlayColor.g) / 255 * brightnessCompensation);
-    let b = Math.round((baseColor.b * overlayColor.b) / 255 * brightnessCompensation);
-
-    // 应用最小阈值
-    r = Math.max(r, Math.min(baseColor.r, overlayColor.r) > 0 ? minThreshold : 0);
-    g = Math.max(g, Math.min(baseColor.g, overlayColor.g) > 0 ? minThreshold : 0);
-    b = Math.max(b, Math.min(baseColor.b, overlayColor.b) > 0 ? minThreshold : 0);
-
-    // 确保不超过255
-    r = Math.min(r, 255);
-    g = Math.min(g, 255);
-    b = Math.min(b, 255);
-
+    // 增强的正片叠底算法，提高亮度保留
     return {
-        r: r,
-        g: g,
-        b: b,
-        a: baseColor.a
+        r: Math.min(255, Math.max(5, Math.round((baseColor.r * overlayColor.r) / 200))), // 除以200而不是255，提高亮度
+        g: Math.min(255, Math.max(5, Math.round((baseColor.g * overlayColor.g) / 200))), // 除以200而不是255，提高亮度
+        b: Math.min(255, Math.max(5, Math.round((baseColor.b * overlayColor.b) / 200))), // 除以200而不是255，提高亮度
+        a: Math.max(baseColor.a, overlayColor.a) // 保留较高的透明度
     };
 }
 
@@ -367,7 +349,7 @@ async function processImages(files) {
 
         updateProgress('开始正片叠底处理...', 40);
 
-        // 检查第一张图片是否有透明通道
+        // 绘制第一张图片到canvas
         ctx.clearRect(0, 0, width, height);
         ctx.drawImage(images[0], 0, 0);
         let imgData = ctx.getImageData(0, 0, width, height);
@@ -380,25 +362,6 @@ async function processImages(files) {
                 hasTransparency = true;
                 break;
             }
-        }
-
-        // 添加亮度检测和警告
-        let lowBrightnessPixels = 0;
-        const totalPixels = (pixelData.length / 4);
-        const brightnessThreshold = 30; // 亮度阈值
-
-        for (let i = 0; i < pixelData.length; i += 4) {
-            // 简单亮度计算: (R+G+B)/3
-            const brightness = (pixelData[i] + pixelData[i + 1] + pixelData[i + 2]) / 3;
-            if (brightness < brightnessThreshold) {
-                lowBrightnessPixels++;
-            }
-        }
-
-        // 如果低亮度像素超过80%，显示警告但继续处理
-        const lowBrightnessPercentage = (lowBrightnessPixels / totalPixels) * 100;
-        if (lowBrightnessPercentage > 80) {
-            console.warn(`警告: 图片中${lowBrightnessPercentage.toFixed(1)}%的像素亮度较低，可能影响正片叠底效果`);
         }
 
         // 逐一处理每张图片
@@ -426,14 +389,44 @@ async function processImages(files) {
                     a: overlayData[j + 3]
                 };
 
-                // 如果两个像素都不透明，则进行正片叠底
+                // 改进的像素处理逻辑
+                // 如果两个像素都不完全透明，则进行正片叠底
                 if (baseColor.a > 0 && overlayColor.a > 0) {
-                    const resultColor = multiplyBlend(baseColor, overlayColor);
+                    // 计算透明度混合系数
+                    const baseAlpha = baseColor.a / 255;
+                    const overlayAlpha = overlayColor.a / 255;
+                    const resultAlpha = baseAlpha + overlayAlpha * (1 - baseAlpha);
 
-                    pixelData[j] = resultColor.r;
-                    pixelData[j + 1] = resultColor.g;
-                    pixelData[j + 2] = resultColor.b;
-                    pixelData[j + 3] = Math.max(baseColor.a, overlayColor.a); // 保留较高的透明度值
+                    // 亮度增强处理
+                    // 如果两个像素中有一个亮度较高，保留更多亮度信息
+                    const baseBrightness = (baseColor.r + baseColor.g + baseColor.b) / 3;
+                    const overlayBrightness = (overlayColor.r + overlayColor.g + overlayColor.b) / 3;
+
+                    // 如果任一图层亮度高于阈值，使用亮度保留模式
+                    if (baseBrightness > 200 || overlayBrightness > 200) {
+                        // 亮度保留模式 - 取两者中较亮的部分
+                        pixelData[j] = Math.max(baseColor.r, overlayColor.r);
+                        pixelData[j + 1] = Math.max(baseColor.g, overlayColor.g);
+                        pixelData[j + 2] = Math.max(baseColor.b, overlayColor.b);
+                    }
+                    // 如果两个像素都有颜色值且不是纯黑，使用增强的正片叠底
+                    else if ((baseColor.r > 10 || baseColor.g > 10 || baseColor.b > 10) &&
+                        (overlayColor.r > 10 || overlayColor.g > 10 || overlayColor.b > 10)) {
+                        const resultColor = multiplyBlend(baseColor, overlayColor);
+
+                        // 确保颜色值不会太暗
+                        pixelData[j] = Math.max(10, resultColor.r);
+                        pixelData[j + 1] = Math.max(10, resultColor.g);
+                        pixelData[j + 2] = Math.max(10, resultColor.b);
+                    } else {
+                        // 如果其中一个像素接近黑色，使用加法混合而不是乘法
+                        pixelData[j] = Math.min(255, baseColor.r + overlayColor.r);
+                        pixelData[j + 1] = Math.min(255, baseColor.g + overlayColor.g);
+                        pixelData[j + 2] = Math.min(255, baseColor.b + overlayColor.b);
+                    }
+
+                    // 设置透明度
+                    pixelData[j + 3] = Math.round(resultAlpha * 255);
                 }
                 // 如果基础像素透明但叠加像素不透明，使用叠加像素
                 else if (baseColor.a === 0 && overlayColor.a > 0) {
@@ -444,6 +437,22 @@ async function processImages(files) {
                 }
                 // 如果叠加像素透明但基础像素不透明，保持基础像素不变
                 // 如果两个像素都透明，则保持透明
+            }
+        }
+
+        // 最终亮度提升 - 对整体结果进行亮度增强
+        for (let i = 0; i < pixelData.length; i += 4) {
+            if (pixelData[i + 3] > 0) {  // 只处理不透明的像素
+                // 计算当前像素的亮度
+                const brightness = (pixelData[i] + pixelData[i + 1] + pixelData[i + 2]) / 3;
+
+                // 如果亮度低于阈值，提升亮度
+                if (brightness < 100) {
+                    const boost = 1.5;  // 亮度提升系数
+                    pixelData[i] = Math.min(255, Math.round(pixelData[i] * boost));
+                    pixelData[i + 1] = Math.min(255, Math.round(pixelData[i + 1] * boost));
+                    pixelData[i + 2] = Math.min(255, Math.round(pixelData[i + 2] * boost));
+                }
             }
         }
 
