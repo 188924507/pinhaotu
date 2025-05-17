@@ -555,7 +555,7 @@ let splitResults = [];
 let numPieces = 8;        // 分割成多少张图片
 let fragmentSize = 30;    // 碎片大小，单位为px
 let bgColor = 'white';    // 底片颜色，默认为白色
-let shouldInvertSplitColors = false;
+let shouldInvertSplitColors = true;  // 默认勾选分割后反转色彩
 
 // 更新范围滑块的值显示
 fragmentSizeRange.addEventListener('input', () => {
@@ -1319,4 +1319,10 @@ document.addEventListener('keydown', (e) => {
 });
 
 // 初始化加载历史记录
-document.addEventListener('DOMContentLoaded', loadHistory);
+document.addEventListener('DOMContentLoaded', function () {
+    loadHistory();
+
+    // 初始化分图功能的默认值
+    bgColor = document.querySelector('input[name="bgColor"]:checked').value || 'white';
+    shouldInvertSplitColors = document.getElementById('splitInvertColors').checked;
+});
